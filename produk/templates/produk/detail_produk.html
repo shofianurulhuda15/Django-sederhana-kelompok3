@@ -1,0 +1,342 @@
+{% extends 'produk/base.html' %}
+
+{% load produk_tags %}
+
+{% load static %}
+
+{% block title %}{{ produk.nama }} - TechStore{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'daftar_produk' %}">Produk</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ produk.nama }}</li>
+        </ol>
+    </nav>
+    
+    <div class="row mt-4">
+        <!-- Product Image -->
+        <div class="col-md-6 mb-4">
+            {% if produk.gambar %}
+                <img src="{% static '/'|add:produk.gambar %}" class="img-fluid product-detail-img" alt="{{ produk.nama }}">
+            {% else %}
+                <img src="https://source.unsplash.com/random/600x600/?{{ produk.nama }}" class="img-fluid product-detail-img" alt="{{ produk.nama }}">
+            {% endif %}
+            <div class="row mt-3">
+                <div class="col-3">
+                    <img src="{% static '/'|add:produk.gambar %}" class="img-fluid rounded" alt="thumbnail">
+                </div>
+                <div class="col-3">
+                    <img src="{% static '/'|add:produk.gambar %}" class="img-fluid rounded" alt="thumbnail">
+                </div>
+                <div class="col-3">
+                    <img src="{% static '/'|add:produk.gambar %}" class="img-fluid rounded" alt="thumbnail">
+                </div>
+                <div class="col-3">
+                    <img src="{% static '/'|add:produk.gambar %}" class="img-fluid rounded" alt="thumbnail">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <h1 class="mb-3">{{ produk.nama }}</h1>
+            <div class="mb-3">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star-half-alt text-warning"></i>
+                <span class="ms-2">(4.5/5 - 120 ulasan)</span>
+            </div>
+            <h2 class="price mb-4">{{ produk.harga }}</h2>
+            <p class="mb-4">{{ produk.deskripsi }}</p>
+            
+            <div class="d-flex align-items-center mb-4">
+                <div class="me-3">
+                    <label for="quantity" class="form-label">Jumlah:</label>
+                    <input type="number" class="form-control" id="quantity" min="1" value="1">
+                </div>
+                <div>
+                    <label for="color" class="form-label">Warna:</label>
+                    <select class="form-select" id="color">
+                        <option value="black">Hitam</option>
+                        <option value="silver">Silver</option>
+                        <option value="white">Putih</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="d-grid gap-2 d-md-block mb-4">
+                <button class="btn btn-primary me-md-2" type="button">
+                    <i class="fas fa-shopping-cart me-2"></i> Tambah ke Keranjang
+                </button>
+                <button class="btn btn-outline-primary" type="button">
+                    <i class="fas fa-heart me-2"></i> Tambah ke Wishlist
+                </button>
+            </div>
+            
+            <div class="mb-4">
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <span>Stok Tersedia</span>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-truck me-2"></i>
+                    <span>Pengiriman Gratis untuk Pembelian di atas Rp 1.000.000</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-shield-alt me-2"></i>
+                    <span>Garansi Resmi 1 Tahun</span>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <h6>Bagikan:</h6>
+                <div class="d-flex">
+                    <a href="#" class="me-2 text-primary"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="me-2 text-info"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-2 text-danger"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-success"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Product Description, Specs, Reviews Tabs -->
+    <div class="mt-5">
+        <ul class="nav nav-tabs" id="productTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Deskripsi</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="specifications-tab" data-bs-toggle="tab" data-bs-target="#specifications" type="button" role="tab" aria-controls="specifications" aria-selected="false">Spesifikasi</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Ulasan (120)</button>
+            </li>
+        </ul>
+        <div class="tab-content p-4 bg-white" id="productTabsContent">
+            <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                <h4>Detail Produk</h4>
+                <p>{{ produk.deskripsi }}</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel felis euismod, lobortis nunc at, cursus neque. 
+                   Praesent auctor risus eget magna eleifend, in varius nisl tincidunt. Proin vel lorem ac lorem convallis dignissim 
+                   vel nec lacus. Duis scelerisque lorem a massa elementum, non scelerisque libero feugiat.</p>
+                
+                <p>Fitur Utama:</p>
+                <ul>
+                    <li>Performa tinggi untuk multitasking</li>
+                    <li>Layar beresolusi tinggi dengan warna yang akurat</li>
+                    <li>Sistem pendingin yang efisien</li>
+                    <li>Baterai tahan lama hingga 8 jam penggunaan</li>
+                    <li>Desain yang ringan dan portabel</li>
+                </ul>
+                
+                <p>Isi Paket:</p>
+                <ul>
+                    <li>{{ produk.nama }}</li>
+                    <li>Adaptor Daya</li>
+                    <li>Manual Book & Warranty Card</li>
+                    <li>Aksesoris tambahan</li>
+                </ul>
+            </div>
+            
+            <div class="tab-pane fade" id="specifications" role="tabpanel" aria-labelledby="specifications-tab">
+                <h4>Spesifikasi Teknis</h4>
+                <div class="specification">
+                    {% if produk.spesifikasi %}
+                        {% for spec in produk.spesifikasi %}
+                            <div class="row">
+                                {% with spec_parts=spec|split:":" %}
+                                    <div class="col-md-4 fw-bold">{{ spec_parts.0 }}</div>
+                                    <div class="col-md-8">{{ spec_parts.1 }}</div>
+                                {% endwith %}
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    {% else %}
+                        <div class="row">
+                            <div class="col-md-4 fw-bold">Merk</div>
+                            <div class="col-md-8">ASUS</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 fw-bold">Model</div>
+                            <div class="col-md-8">ROG Strix G15</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 fw-bold">Prosesor</div>
+                            <div class="col-md-8">Intel Core i7-11800H</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 fw-bold">RAM</div>
+                            <div class="col-md-8">16GB DDR4</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 fw-bold">Penyimpanan</div>
+                            <div class="col-md-8">512GB SSD</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 fw-bold">Kartu Grafis</div>
+                            <div class="col-md-8">NVIDIA GeForce RTX 3070 8GB</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 fw-bold">Layar</div>
+                            <div class="col-md-8">15.6" Full HD, 165Hz</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 fw-bold">Sistem Operasi</div>
+                            <div class="col-md-8">Windows 11 Home</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 fw-bold">Berat</div>
+                            <div class="col-md-8">2.3 kg</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 fw-bold">Dimensi</div>
+                            <div class="col-md-8">354 x 259 x 20 mm</div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4>Ulasan Pelanggan</h4>
+                    <button class="btn btn-outline-primary">Tulis Ulasan</button>
+                </div>
+                
+                <!-- Review 1 -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>
+                                <h5 class="mb-0">Ahmad Rahman</h5>
+                                <div>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted">2 minggu yang lalu</small>
+                        </div>
+                        <p class="card-text">Laptop ini sangat cepat dan sesuai dengan harapan saya. Cocok untuk gaming dan editing video. Battery life juga cukup baik untuk laptop gaming.</p>
+                    </div>
+                </div>
+                
+                <!-- Review 2 -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>
+                                <h5 class="mb-0">Siti Nurhaliza</h5>
+                                <div>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="far fa-star text-warning"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted">1 bulan yang lalu</small>
+                        </div>
+                        <p class="card-text">Performa sangat baik namun agak panas ketika digunakan untuk gaming intensif. Kipas juga agak berisik ketika laptop bekerja dengan beban berat.</p>
+                    </div>
+                </div>
+                
+                <!-- Review 3 -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>
+                                <h5 class="mb-0">Budi Setiawan</h5>
+                                <div>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star-half-alt text-warning"></i>
+                                </div>
+                            </div>
+                            <small class="text-muted">3 bulan yang lalu</small>
+                        </div>
+                        <p class="card-text">Sangat puas dengan pembelian ini. Pengiriman cepat, packaging aman, dan produk sesuai deskripsi. Rekomendasi untuk yang mencari laptop performa tinggi.</p>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Related Products -->
+    <section class="mt-5">
+        <h3 class="section-title mb-4">Produk Terkait</h3>
+        <div class="row">
+            {% if produk_terkait %}
+                {% for related in produk_terkait %}
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            {% if related.gambar %}
+                                <img src="{% static '/'|add:related.gambar %}" class="card-img-top" alt="{{ related.nama }}">
+                            {% else %}
+                                <img src="https://source.unsplash.com/random/300x200/?{{ related.nama }}" class="card-img-top" alt="{{ related.nama }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ related.nama }}</h5>
+                                <p class="price mb-2">{{ related.harga }}</p>
+                                <a href="{% url 'detail_produk' related.id %}" class="btn btn-sm btn-primary">Lihat Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12">
+                    <p class="text-center">Tidak ada produk terkait saat ini.</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+{% comment %}
+Untuk Django Template Filter yang digunakan dalam template ini:
+Anda perlu membuat custom template filter bernama "split" untuk memecah string pada karakter tertentu.
+Contoh implementasi:
+
+# di file templatetags/produk_tags.py
+from django import template
+
+register = template.Library()
+
+@register.filter
+def split(value, arg):
+    return value.split(arg)
+{% endcomment %}
+{% endblock %}
