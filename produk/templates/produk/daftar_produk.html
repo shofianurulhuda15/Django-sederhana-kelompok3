@@ -1,0 +1,50 @@
+{% extends 'produk/base.html' %}
+
+{% load static %}
+
+{% block title %}Daftar Produk - TechStore{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="hero">
+    <div class="container text-center">
+        <h1 class="display-5 fw-bold mb-3">Katalog Produk</h1>
+        <p class="lead">Temukan produk elektronik dan gadget terbaik untuk kebutuhan Anda</p>
+    </div>
+</section>
+
+<!-- Product Listing -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Daftar Produk</h2>
+    <div class="row">
+        {% for produk in produk_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{% static 'produk/'|add:produk.gambar %}" class="card-img-top" alt="{{ produk.nama }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ produk.nama }}</h5>
+                    <p class="card-text">{{ produk.harga }}</p>
+                    <a href="{% url 'detail_produk' produk.id %}" class="btn btn-primary">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+    
+    <!-- Pagination -->
+    <nav class="mt-5">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</section>
+{% endblock %}
